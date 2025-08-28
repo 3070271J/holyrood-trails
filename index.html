@@ -1,1 +1,119 @@
+<!-- Google Fonts (when migrating to GitHub put in <head>) -->
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&family=Open+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 
+<!-- ─────────────────────────────────────────────────────────
+     Welcome popup (tutorial opt-in)
+     ───────────────────────────────────────────────────────── -->
+<div id="welcome-popup" class="welcome" role="dialog" aria-modal="true" aria-labelledby="welcome-title" aria-describedby="welcome-desc">
+  <div class="welcome-popup">
+    <h2 id="welcome-title">Welcome to the Accessibility Map</h2>
+    <p id="welcome-desc">Would you like a quick tutorial?</p>
+    <button id="start-tutorial" type="button">Yes</button>
+    <button id="skip-tutorial" type="button">No</button>
+  </div>
+</div>
+
+<!-- Route hint (for live update information from routing) -->
+<div id="route-hint" class="route-hint" hidden role="status" aria-live="polite"></div>
+
+<!-- ─────────────────────────────────────────────────────────
+     Map canvas + associated features
+     ───────────────────────────────────────────────────────── -->
+<div id="map" class="tour-dimmable" aria-label="Map of Holyrood Park with accessible trail overlays"></div>
+
+<!-- Info panel (only visible from click) -->
+<div id="info-panel" class="info-panel" hidden role="region" aria-label="Segment information"></div>
+
+<!-- ─────────────────────────────────────────────────────────
+     Legend (key for difficulty categories; filtered categories are greyed out dynamically)
+───────────────────────────────────────────────────────── -->
+<div id="legend" class="legend tour-dimmable" role="region" aria-label="Legend: trail difficulty">
+  <h4>Trail difficulty</h4>
+  <div difficulty="easy"><span style="background:#00cc66"></span> Gentle</div>
+  <div difficulty="moderate"><span style="background:#ffcc00"></span> Steep or uneven in places</div>
+  <div difficulty="challenging"><span style="background:#cc3300"></span> Significant effort needed</div>
+  <div difficulty="extreme"><span style="background:#660000"></span> Not recommended</div>
+</div>
+
+<!-- ─────────────────────────────────────────────────────────
+     Toolbox: colourblind toggle button, difficulty checkboxes, preference checkboxes, routing buttons
+     ───────────────────────────────────────────────────────── -->
+<div id="toolbox" class="tour-dimmable" role="region" aria-label="Filters and route finder">
+
+  <section aria-label="Colourblind mode">
+    <button id="toggle-colourblind" type="button">Colourblind mode</button>
+  </section>
+
+  <section aria-label="Trail difficulty">
+    <h3>Trail Difficulty</h3>
+    <label><input type="checkbox" value="easy" checked> Gentle</label><br>
+    <label><input type="checkbox" value="moderate" checked> Steep or uneven in places</label><br>
+    <label><input type="checkbox" value="challenging" checked> Significant effort needed</label><br>
+    <label><input type="checkbox" value="extreme" checked> Not recommended</label>
+  </section>
+
+  <section aria-label="Custom preferences">
+    <h3>Custom Preferences</h3>
+    <label><input type="checkbox" id="pref-vertigo" checked> I'm fine with exposed heights</label><br>
+    <label><input type="checkbox" id="pref-steep" checked> I'm fine with steep slopes</label><br>
+    <label><input type="checkbox" id="pref-uneven" checked> I’m fine with rough or uneven ground</label><br>
+    <label><input type="checkbox" id="pref-overgrowth" checked> I’m fine with trails with overgrowth (nettles/thorns)</label>
+  </section>
+
+  <section aria-label="Route finder">
+    <h3>Route Finder</h3>
+    <button id="start-routing" type="button">Start Selection</button>
+    <button id="clear-routing" type="button">Clear</button>
+    <!-- Announce updates to assistive tech -->
+    <p id="route-status" aria-live="polite">Select start and end segments on the map</p>
+  </section>
+</div>
+
+<!-- ─────────────────────────────────────────────────────────
+     Popup/Info panel template (for styling / cloning in JS)
+Note: I orignially used the term "pop-ups" and changed to info panel in the report, hence the inconsistent class name.
+───────────────────────────────────────────────────────── -->
+<div class="popup-container" aria-hidden="true">
+  <!-- Header includes trail ID + difficulty -->
+  <div class="popup-header">
+    <h3 class="popup-title">Trail Section 589</h3>
+    <div class="popup-difficulty">
+      <span class="popup-difficulty-icon" aria-hidden="true">🟢</span>
+      <span class="popup-difficulty-label">Gentle</span>
+    </div>
+  </div>
+
+  <!-- Body paragraph -->
+  <div class="popup-body">
+    <p>This part of the trail has some steep or uneven sections.</p>
+    <p>It has a dirt surface and passes through grassland.</p>
+  </div>
+
+  <!-- Images section: For ground truthing images in info panel. -->
+  <div class="popup-images">
+    <figure>
+      <img src="images/dirt-surface.jpg" alt="Dirt surface trail">
+      <figcaption>Dirt surface</figcaption>
+    </figure>
+    <figure>
+      <img src="images/grassland.jpg" alt="Trail passing through grassland">
+      <figcaption>Grassland</figcaption>
+    </figure>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────────────────────
+     Tutorial overlay
+     ───────────────────────────────────────────────────────── -->
+<div id="tour" hidden>
+  <div class="tour-backdrop" aria-hidden="true"></div>
+  <div class="tour-spot" aria-hidden="true"></div>   <!-- Focus box -->
+  <div class="tour-card" role="dialog" aria-modal="true" aria-labelledby="tour-text">
+    <div id="tour-text"></div>
+    <div class="tour-actions">
+      <button id="tour-prev" type="button">Back</button>
+      <button id="tour-next" type="button">Next</button>
+      <button id="tour-skip" type="button">Skip</button>
+    </div>
+  </div>
+</div>
