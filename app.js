@@ -1,1 +1,510 @@
+/* ──────────────────────────────
+   Base setup: font + body reset
+   ────────────────────────────── */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Open Sans', Arial, sans-serif; /* main font */
+  font-size: 14px;
+  line-height: 1.5;
+}
 
+/* Full-screen map canvas */
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+/* ──────────────────────────────
+   Legend (bottom-left key)
+   ────────────────────────────── */
+.legend {
+  position: absolute;
+  top: 40px;
+  left: 16px;
+  background: #eaeaea;
+  padding: 8px 10px;
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 13px;
+  line-height: 1.4;
+  box-shadow: 0 0 4px rgba(0,0,0,.15);
+  border-radius: 4px;
+  border: 1px solid #999;
+}
+
+.legend h4 {
+  margin: 0 0 15px 0;
+  font-family: 'Nunito Sans', Arial, sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  text-align: center;
+}
+
+.legend div {
+  display: flex;              /* color box + label inline */
+  align-items: center;
+  margin: 6px 0;
+}
+
+.legend span {
+  width: 14px;                /* size of color swatch */
+  height: 14px;
+  margin-right: 6px;
+  display: inline-block;
+  border: 1px solid #ccc;     /* outline so pale colors are visible */
+}
+
+/* Welcome Popup */
+.welcome {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+/* ──────────────────────────────
+   Welcome popup (screen overlay)
+   ────────────────────────────── */
+.welcome {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.75); /* dark backdrop */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;               /* always on top */
+}
+
+.welcome-popup {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: center;
+  max-width: 400px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  font-family: 'Open Sans', Arial, sans-serif;
+}
+
+.welcome-popup button {
+  margin: 0.5rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-family: 'Nunito Sans', Arial, sans-serif;
+  font-weight: 600;
+}
+
+/* ──────────────────────────────
+   Toolbox (filters + routing)
+   ────────────────────────────── */
+#toolbox {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 240px;
+  background: #eaeaea;
+  padding: 3px 16px 12px;       /* small top padding */
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  border-radius: 8px;
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 13px;
+  z-index: 10;                  /* above map */
+  max-height: 90vh;
+  overflow-y: auto;             /* scroll if long */
+  border: 1px solid #999;
+}
+
+#toolbox h3 {
+  margin: 20px 0 6px;
+  font-family: 'Nunito Sans', Arial, sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  border-bottom: 1px solid #ccc; /* subtle divider */
+  padding-bottom: 2px;
+}
+
+#toolbox section + section {
+  margin-top: 30px; /* spacing between sections */
+}
+
+#toolbox label {
+  display: flex;          /* checkbox + text inline */
+  align-items: center;
+  gap: 6px;               /* spacing between box/text */
+  cursor: pointer;
+  margin-bottom: 0;
+  line-height: 1.2;
+}
+
+#toolbox button {
+  margin-right: 6px;
+  margin-top: 6px;
+  padding: 6px 10px;       /* bigger click target */
+  font-size: 15px;
+  cursor: pointer;
+  font-family: 'Nunito Sans', Arial, sans-serif;
+  font-weight: 600;
+  border-radius: 6px;
+  border: 2px solid #ccc;
+  background-color: #f8f8f8;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+#toolbox input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;          /* stops checkbox shrinking */
+  accent-color: #2e7d32;   /* deep green */
+}
+
+/* Keyboard focus outline for checkboxes */
+#toolbox input[type="checkbox"]:focus-visible {
+  outline: 2px solid #174e1f;
+  outline-offset: 2px;
+}
+
+/* ──────────────────────────────
+   Route finder status text
+   ────────────────────────────── */
+#route-status {
+  font-style: italic;
+  font-size: 12px;
+}
+
+/* ──────────────────────────────
+   Mapbox popup (trail segment info)
+   ────────────────────────────── */
+
+/* Base popup content (before custom wrapper) */
+.trail-popup .mapboxgl-popup-content {
+  font-family: 'Open Sans', Arial, sans-serif;  
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 10px 12px;
+  border-radius: 10px;
+}
+
+/* Header section (title + emoji label) */
+.trail-popup .popup-header {
+  font-family: 'Nunito Sans', Arial, sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+/* Small descriptor under emoji in header */
+.trail-popup .popup-header div:last-child div:last-child {
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  color: #555;
+}
+
+/* Body paragraphs inside popup */
+.trail-popup .popup-body p {
+  margin: 0 0 6px 0;
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 14px;
+}
+
+/* Warning cards (e.g. steep slope, vertigo) */
+.trail-popup .popup-body .warning,
+.trail-popup .popup-body div[role="alert"] {
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+}
+
+/* Captions under popup images */
+.trail-popup .popup-images figcaption {
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 12px;
+  color: #555;
+  text-align: left; /* could be centered if preferred */
+}
+
+/* Title styling (if used separately) */
+.trail-popup .popup-title {
+  font-family: 'Nunito Sans', Arial, sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+/* Remove Mapbox's default white box so your own wrapper fills it */
+.trail-popup .mapboxgl-popup-content {
+  background: transparent !important;
+  padding: 0 !important;
+  box-shadow: none !important;   
+  border-radius: 0 !important;
+}
+
+/* Hide the Mapbox popup "tip" (little white triangle) */
+.trail-popup .mapboxgl-popup-tip {
+  display: none !important;
+}
+
+/* Your custom inner wrapper: shadow + padding */
+.trail-popup .popup-wrapper {
+  padding: 10px 12px;
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+}
+
+/* ──────────────────────────────
+   Side info panel (click segment)
+   Uses CSS vars for easy positioning
+   ────────────────────────────── */
+:root {
+  --panel-width: 300px;
+  --panel-shift-x: 540px;   /* move left from center */
+  --panel-shift-y: 0px;     /* move down from center */
+}
+
+.info-panel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(
+    calc(-1 * var(--panel-shift-x)),
+    calc(-50% + var(--panel-shift-y))
+  );
+
+  width: var(--panel-width);
+  max-height: 80vh;          /* leave space above/below */
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+
+  background: transparent;
+  border-radius: 10px;
+  z-index: 12;
+}
+
+/* Hide scrollbar (for WebKit browsers) */
+.info-panel::-webkit-scrollbar { display: none; }
+
+/* Popup styles inside the info panel */
+.info-panel .popup-wrapper { 
+  padding: 10px 12px;
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.info-panel .popup-header { 
+  text-align: center;
+  font-family: 'Nunito Sans', Arial, sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.info-panel figure { margin: 0; }
+.info-panel figcaption { font-size: 12px; color:#555; }
+
+/* Close button (top-right corner of info panel) */
+.info-panel-close {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  font-size: 16px;
+  color: #555;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.info-panel-close:hover {
+  color: #000;
+}
+
+/* ──────────────────────────────
+   Route hint (floating status banner)
+   Appears at top when routing is run
+   ────────────────────────────── */
+.route-hint {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: min(90vw, 520px);
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(0,0,0,0.7);   /* dark backdrop for contrast */
+  color: #fff;
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+  z-index: 20;
+  pointer-events: none;          /* clicks pass through */
+  opacity: 0;
+  transition: opacity 150ms ease; /* fade in/out */
+}
+
+/* Visible state (JS toggles this) */
+.route-hint.show { opacity: 1; }
+
+/* ──────────────────────────────
+   Interactive tutorial overlay (onboarding tour)
+   ────────────────────────────── */
+
+/* Hide tour container if [hidden] is applied */
+#tour[hidden]{ display:none; }
+
+/* Fullscreen container for the tour */
+#tour{
+  position:fixed; inset:0;
+  z-index:2147483600;
+  pointer-events:none; /* only the card should be clickable */
+}
+
+/* Dark backdrop that dims the page */
+#tour .tour-backdrop{
+  position:fixed; inset:0;
+  background: rgba(0,0,0,0.45);
+  pointer-events:auto; /* blocks map clicks during tour */
+  z-index:2147483601;
+}
+
+/* Highlight box around current UI target */
+#tour .tour-spot{
+  position:fixed;           
+  border:2px solid #fff;
+  border-radius:10px;
+  box-shadow:0 0 0 6px rgba(0,0,0,0.25);
+  z-index:2147483603;
+  pointer-events:none;
+}
+
+/* Floating instruction card */
+#tour .tour-card{
+  position:fixed;
+  top:16px; left:50%; transform:translateX(-50%);
+  max-width:320px;
+  background:#fff; color:#111;
+  border-radius:10px; padding:12px 14px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.25);
+  font-family:'Open Sans', Arial, sans-serif;
+  font-size:14px; line-height:1.4;
+  pointer-events:auto;
+  z-index:2147483606;
+}
+
+/* Button row inside the tour card */
+.tour-actions{ 
+  display:flex; gap:8px; justify-content:flex-end; margin-top:10px; 
+}
+.tour-actions button{
+  font-family:'Nunito Sans', Arial, sans-serif;
+  font-weight:600; font-size:13px;
+  padding:6px 10px; border-radius:6px;
+  border:2px solid #ccc; background:#f8f8f8; cursor:pointer;
+}
+
+/* Temporarily hide UI elements during certain tour steps */
+.tour-hidden { display: none !important; }
+
+/* Elevate target elements above backdrop but below card */
+.tour-elevate {
+  z-index: 2147483604 !important;  
+  pointer-events: none !important; 
+}
+
+/* ──────────────────────────────
+   Popup container (default hidden)
+   ────────────────────────────── */
+.popup-container {
+  display: none !important;
+}
+
+/* ──────────────────────────────
+   Routing buttons (start/clear)
+   Styled with CSS variables for easy theme switching
+   ────────────────────────────── */
+
+/* Default palette */
+:root{
+  --start-bg:#dff5e1; --start-border:#9ed6aa; --start-hover:#c8ebcd;
+  --clear-bg:#ffe5e5; --clear-border:#e0aaaa; --clear-hover:#f7cccc;
+}
+
+/* Colourblind-friendly palette (toggles via .cb-mode class) */
+.cb-mode{
+  --start-bg:#d7e7f6; --start-border:#a9c7e3; --start-hover:#c9ddf1;
+  --clear-bg:#fde9cc; --clear-border:#f0c993; --clear-hover:#f8ddb5;
+}
+
+/* Apply variables to buttons */
+#start-routing{ background-color:var(--start-bg); border-color:var(--start-border); }
+#start-routing:hover{ background-color:var(--start-hover); }
+#clear-routing{ background-color:var(--clear-bg); border-color:var(--clear-border); }
+#clear-routing:hover{ background-color:var(--clear-hover); }
+
+/* Colourblind mode toggle button */
+#toggle-colourblind {
+  display: block;
+  margin-left: 40px;
+}
+
+/* ──────────────────────────────
+   Mapbox control overrides
+   ────────────────────────────── */
+
+/* Hide default zoom in/out buttons (keep compass) */
+.mapboxgl-ctrl-group > .mapboxgl-ctrl-zoom-in,
+.mapboxgl-ctrl-group > .mapboxgl-ctrl-zoom-out {
+  display: none !important;
+}
+
+/* Layout bottom-left controls (attribution + scale) in a row */
+.mapboxgl-ctrl-bottom-left {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-end !important;
+  gap: 8px !important; /* space between logo and scale */
+}
+
+/* Remove margins around controls for tighter layout */
+.mapboxgl-ctrl-bottom-left .mapboxgl-ctrl {
+  margin: 0 !important;
+}
+
+/* Optional: small tweak to lift scale a bit */
+.mapboxgl-ctrl-bottom-left .mapboxgl-ctrl-scale {
+  margin-bottom: 4px !important;
+}
+
+/* Control order: attribution before scale */
+.mapboxgl-ctrl-bottom-left .mapboxgl-ctrl-attrib { order: 0; }
+.mapboxgl-ctrl-bottom-left .mapboxgl-ctrl-scale  { order: 1; }
+
+/* Transparent background for scale, remove shadow */
+.mapboxgl-ctrl-scale {
+  background: transparent !important;
+  box-shadow: none !important;
+  color: black !important;
+  font-weight: 500; /* clearer text */
+}
+
+/* Push top-right nav control left so it clears toolbox */
+.mapboxgl-ctrl-top-right .mapboxgl-ctrl.mapboxgl-ctrl-group {
+  margin-right: 300px;   
+  margin-top: 14px;      
+}
+
+/* Again: hide zoom buttons top-right, keep compass */
+.mapboxgl-ctrl-top-right .mapboxgl-ctrl-zoom-in,
+.mapboxgl-ctrl-top-right .mapboxgl-ctrl-zoom-out {
+  display: none !important;
+}
