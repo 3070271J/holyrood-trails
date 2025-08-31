@@ -883,7 +883,7 @@ document.getElementById('clear-routing').addEventListener('click', () => {
   startNode = endNode = null;
   clearRouteGraphics();
   hideRouteHint();
-  // hideInfoPanel();  // uncomment if you want to close details on “Clear” too
+  // hideInfoPanel();
 });
 
 // ─────────────────────────────────────────────────────────────
