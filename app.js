@@ -88,7 +88,7 @@ function getAllowedDifficultiesFromUI() {
 
 /**
  * Map numeric total_score (1–10) to UI difficulty buckets.
- * Matches the classification used throughout the app and in the thesis.
+ * Matches the classification used throughout the app.
  */
 function difficultyFromScore(score) {
   if (score <= 3) return "easy";
