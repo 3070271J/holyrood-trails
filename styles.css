@@ -232,14 +232,14 @@ body {
   text-align: left; /* could be centered if preferred */
 }
 
-/* Title styling (if used separately) */
+/* Title styling */
 .trail-popup .popup-title {
   font-family: 'Nunito Sans', Arial, sans-serif;
   font-weight: 700;
   font-size: 16px;
 }
 
-/* Remove Mapbox's default white box so your own wrapper fills it */
+/* Remove Mapbox's default white box so wrapper fills it */
 .trail-popup .mapboxgl-popup-content {
   background: transparent !important;
   padding: 0 !important;
@@ -247,12 +247,12 @@ body {
   border-radius: 0 !important;
 }
 
-/* Hide the Mapbox popup "tip" (little white triangle) */
+/* Hide the Mapbox popup "tip" */
 .trail-popup .mapboxgl-popup-tip {
   display: none !important;
 }
 
-/* Your custom inner wrapper: shadow + padding */
+/* Custom inner wrapper: shadow + padding */
 .trail-popup .popup-wrapper {
   padding: 10px 12px;
   border-radius: 10px;
@@ -480,7 +480,7 @@ body {
   margin: 0 !important;
 }
 
-/* Optional: small tweak to lift scale a bit */
+/* Small tweak to lift scale a bit */
 .mapboxgl-ctrl-bottom-left .mapboxgl-ctrl-scale {
   margin-bottom: 4px !important;
 }
