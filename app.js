@@ -42,9 +42,9 @@ map.on('load', () => {
     paint: {
       'line-color': [
         'case',
-        // Index contours (every 50 m) → muted grey-brown
+        // Index contours (every 50 m) → muted brown
         ['==', ['%', ['floor', ['to-number', ['get', 'ELEV']]], 50], 0], '#8b6f52',
-        // Regular contours → softer lighter brown
+        // Regular contours → softer light brown
         '#a78d75'
       ],
       'line-width': [
@@ -62,7 +62,7 @@ map.on('load', () => {
     }
   });
 
-  // Keep contours under trails if the trail layer exists
+  // Keep contours under trails if trail layer exists
   if (map.getLayer('trails-line')) {
     map.moveLayer('contours-line', 'trails-line'); 
   }
@@ -237,7 +237,7 @@ function applyFilter() {
       'all',
       // Difficulty must be in the checked list
       ['in', ['get', 'difficulty'], ['literal', checked]],
-      // Preference bans: if user DISallows an attribute, exclude those features
+      // Preference bans: if user disallows an attribute, exclude those features
       showVertigoRisk ? true : ['!=', ['get', 'vertigo'], 'yes'],
       showSteepSlopes ? true : ['<', ['get', 'slope_class'], 5],        // class >=5 are “steep”
       showUnevenGround ? true : ['!=', ['get', 'surface_score'], 4],    // 4 is max (rough/rocky)
@@ -468,6 +468,7 @@ map.on('click', 'trails-active', (e) => {
   const sLCnorm = sLCraw.replace(/^bare\s+/, '').trim();
   const lcNorm  = lcRaw.replace(/^bare\s+/, '').trim();
 
+  // Tweak for grammatical correctness
   if (haveSurface && haveLC && sLCnorm !== lcNorm) {
     const article = /^[aeiou]/.test(sLCraw) ? 'an' : 'a';
     paragraph += ` It has ${article} ${sLCraw} surface and passes through ${lcRaw}.`;
@@ -607,7 +608,7 @@ function popupBgFor(diff){
   // Pastel background based on difficulty + current palette
   const bgColor = popupBgFor(p.difficulty);
 
-  // Wrap popup content so we can set background + add a close button
+  // Wrap popup content to set background + add a close button
   const wrapperStart = `<div class="popup-wrapper" style="background:${bgColor};">`;
   const wrapperEnd = `</div>`;
 
